@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "users",
     "category",
     "services",
+    "chat",
+    "chatmess",
     "userservice",
     "rest_framework",  # Add this line
     "rest_framework.authtoken",  # Add this line
