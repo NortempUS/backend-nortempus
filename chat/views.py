@@ -11,6 +11,12 @@ from rest_framework.decorators import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from chatmess.models import ChatMess
+from chatmess.serializers import ChatMessSerializer
+
+from .models import Chat
+from .serializers import ChatSerializer
+
 
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
@@ -30,8 +36,9 @@ def get_chats_by_user(request, user_id):
 def get_chat_by_id(request, chat_id):
     try:
         chat = Chat.objects.get(pk=chat_id)
+        chatmess = ChatMess.objects.filter(chat=chat_id)
     except Chat.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    serializer = ChatSerializer(chat)
+    serializer = ChatMessSerializer(chatmess, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
