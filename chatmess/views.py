@@ -34,3 +34,15 @@ def create_chatmess(request):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_chatmess_by_chat(request, chat_id):
+    try:
+        chat_mess = ChatMess.objects.filter(chat=chat_id)
+    except ChatMess.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = ChatMessSerializer(chat_mess, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
