@@ -51,7 +51,6 @@ def register(request):
 
 
 @api_view(["POST"])
-@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def profile(request):
     services = Service.objects.filter(receiver=request.user)
