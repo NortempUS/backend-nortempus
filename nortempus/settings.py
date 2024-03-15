@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-ofob981urh4vfx__(@v7dm#d5t8+!8i=ge*tq!+ue5wf#nk**j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "chatmess",
     "userservice",
     "rest_framework",  # Add this line
-    "rest_framework.authtoken",  # Add this line
+    "rest_framework.authtoken",
+    "corsheaders",
 ]
 
 REST_FRAMEWORK = {
@@ -55,6 +56,11 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = "users.CustomUser"
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -63,6 +69,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "nortempus.urls"
