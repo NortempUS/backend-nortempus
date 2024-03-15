@@ -41,7 +41,17 @@ INSTALLED_APPS = [
     "category",
     "services",
     "userservice",
+    "rest_framework",  # Add this line
+    "rest_framework.authtoken",  # Add this line
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",  # Add this line
+    ],
+}
+
+AUTH_USER_MODEL = "users.CustomUser"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
