@@ -19,7 +19,6 @@ from .serializers import ChatSerializer
 
 
 @api_view(["GET"])
-@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_chats_by_user(request, user_id):
     try:
@@ -31,7 +30,6 @@ def get_chats_by_user(request, user_id):
 
 
 @api_view(["GET"])
-@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_chat_by_id(request, chat_id):
     try:
