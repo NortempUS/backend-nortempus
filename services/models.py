@@ -1,6 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-
+from django.utils import timezone
 from category.models import Category
 from users.models import CustomUser
 
@@ -21,8 +21,8 @@ class Service(models.Model):
     )
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField()
-    date = models.DateField()
-    status = models.BooleanField()
+    date = models.DateField(default=timezone.now())
+    status = models.BooleanField(default=True, null=True, blank=True)
     valoration = models.IntegerField(
         null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
