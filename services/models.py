@@ -13,7 +13,11 @@ class Service(models.Model):
         CustomUser, on_delete=models.CASCADE, related_name="receiver"
     )
     provider = models.ForeignKey(
-        CustomUser, on_delete=models.SET_NULL, null=True, related_name="provider"
+        CustomUser,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="provider",
     )
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField()

@@ -13,7 +13,6 @@ class Category(models.Model):
         ("otros", "Otros"),
     ]
     category_type = models.TextField(choices=CATEGORY_CHOICES)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def str(self):
         return self.category_type + " - " + self.user.username
