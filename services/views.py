@@ -24,15 +24,12 @@ def list_services(request):
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def list_services_by_receiver_id(request, id):
-    category_names = []
-    services = Service.objects.filter(receiver=id)
-    for service in services:
-        category_names.append(service.category.category_type)
+def list_services_by_receiver_id(request, receiver_id):
+    services = Service.objects.filter(receiver=receiver_id)
     serializer = ServiceSerializer(services, many=True)
 
     return Response(
-        {"serializer": serializer.data, "category_names": category_names},
+        serializer.data,
         status=status.HTTP_200_OK,
     )
 
