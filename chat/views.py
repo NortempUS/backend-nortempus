@@ -21,13 +21,21 @@ from .serializers import ChatSerializer
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_chats_by_user(request, user_id):
-    print("Debug: Inside get_chats_by_user view function")
     try:
         chats = Chat.objects.filter(Q(user1=user_id) | Q(user2=user_id))
+        lista_users = []
+        for chat in chats:
+            # Determine the user you're not chatting with
+            other_user = chat.user1 if chat.user2_id == user_id else chat.user2
+            lista_users.append(other_user.username)
     except Chat.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
     serializer = ChatSerializer(chats, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(
+        {"serializer": serializer.data, "lista_users": lista_users},
+        status=status.HTTP_200_OK,
+    )
 
 
 @api_view(["GET"])
