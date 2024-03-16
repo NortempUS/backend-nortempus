@@ -55,19 +55,37 @@ def list_service_by_id(request, id):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def create_service(request):
-    serializer = ServiceSerializer(data=request.data)
+    # Extracting data from request
+    title = request.data.get("title")
+    description = request.data.get("description")
 
+    # Validating if required data is present
+    if not title or not description:
+        return Response(
+            {"error": "Title and description are required."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    # Assigning receiver as the current authenticated user
+    receiver = request.user
+
+    # Creating the service instance with provided data
+    service_instance = {
+        "title": title,
+        "description": description,
+        "receiver": receiver.id,  # Assuming receiver is a foreign key field
+    }
+
+    # Creating serializer instance with data and context
+    serializer = ServiceSerializer(data=service_instance, context={"request": request})
+
+    # Validating serializer data
     if serializer.is_valid():
-        service_instance = serializer.save()
-
-        # Asigna el usuario actualmente autenticado a la instancia del servicio
-        service_instance.provider = request.user
-
-        # Guarda la instancia del servicio en la base de datos
-        service_instance.save()
-
+        # Saving the serializer instance
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["PUT"])

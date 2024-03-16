@@ -20,7 +20,7 @@ class Service(models.Model):
         related_name="provider",
     )
     description = models.TextField()
-    date = models.DateField(default=timezone.now())
+    date = models.DateField(auto_now=True)
     status = models.BooleanField(default=True, null=True, blank=True)
     valoration = models.IntegerField(
         null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(5)]
