@@ -37,14 +37,13 @@ def list_services_by_receiver_id(request, receiver_id):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def list_service_by_id(request, id):
-    category_name = []
     service = get_object_or_404(Service, id=id)
-    category_name.append(service.category.category_type)
+
     serializer = ServiceSerializer(service, many=True)
 
     serializer = ServiceSerializer(service)
     return Response(
-        {"serializer": serializer.data, "category_name": category_name},
+        serializer.data,
         status=status.HTTP_200_OK,
     )
 
