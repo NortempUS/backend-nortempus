@@ -11,7 +11,6 @@ class ServiceSerializer(serializers.ModelSerializer):
             "title",
             "receiver",
             "provider",
-            "category",
             "description",
             "date",
             "status",

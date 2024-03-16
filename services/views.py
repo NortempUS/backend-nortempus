@@ -1,16 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from category.models import Category
+from category.serializers import CategorySerializer
 
 from .models import Service
-from rest_framework.decorators import api_view, permission_classes
-
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from .serializers import ServiceSerializer
-
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 
 
 @api_view(["GET"])
@@ -69,3 +67,17 @@ def create_service(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def update_service(request, service_id):
+    print("update_service")
+    service = get_object_or_404(Service, id=service_id)
+    # I need to change the service.status to false
+    service.status = False
+    service.save()
+
+    serializer = ServiceSerializer(service)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
