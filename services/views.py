@@ -5,7 +5,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from category.models import Category
-from category.serializers import CategorySerializer
 
 from .models import Service
 from .serializers import ServiceSerializer
@@ -14,14 +13,11 @@ from .serializers import ServiceSerializer
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def list_services(request):
-    category_names = []
     services = Service.objects.all()
-    for service in services:
-        category_names.append(service.category.category_type)
     serializer = ServiceSerializer(services, many=True)
 
     return Response(
-        {"serializer": serializer.data, "category_names": category_names},
+        serializer.data,
         status=status.HTTP_200_OK,
     )
 
@@ -59,13 +55,18 @@ def list_service_by_id(request, id):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def create_service(request):
-    print(request.data)
     serializer = ServiceSerializer(data=request.data)
 
     if serializer.is_valid():
-        serializer.save()
+        service_instance = serializer.save()
+
+        # Asigna el usuario actualmente autenticado a la instancia del servicio
+        service_instance.provider = request.user
+
+        # Guarda la instancia del servicio en la base de datos
+        service_instance.save()
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

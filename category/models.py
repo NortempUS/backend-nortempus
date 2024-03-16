@@ -14,7 +14,7 @@ class Category(models.Model):
         ("otros", "Otros"),
     ]
     category_type = models.TextField(choices=CATEGORY_CHOICES)
-    service = models.ForeignKey("services.Service", on_delete=models.CASCADE, null=True)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, null=True)
 
     def str(self):
         return self.category_type + " - " + self.user.username
