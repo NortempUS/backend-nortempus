@@ -21,6 +21,7 @@ from .serializers import ChatSerializer
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_chats_by_user(request, user_id):
+    print("Debug: Inside get_chats_by_user view function")
     try:
         chats = Chat.objects.filter(Q(user1=user_id) | Q(user2=user_id))
     except Chat.DoesNotExist:
