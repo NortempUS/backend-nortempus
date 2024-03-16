@@ -55,6 +55,7 @@ def create_service(request):
     # Extracting data from request
     title = request.data.get("title")
     description = request.data.get("description")
+    receiver = request.data.get("receiver")
 
     # Validating if required data is present
     if not title or not description:
@@ -63,14 +64,11 @@ def create_service(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    # Assigning receiver as the current authenticated user
-    receiver = request.user
-
     # Creating the service instance with provided data
     service_instance = {
         "title": title,
         "description": description,
-        "receiver": receiver.id,  # Assuming receiver is a foreign key field
+        "receiver": receiver,  # Assuming receiver is a foreign key field
     }
 
     # Creating serializer instance with data and context
@@ -98,7 +96,8 @@ def update_service(request, service_id):
 
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['POST'])
+
+@api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def create_service(request):
     serializer = ServiceSerializer(data=request.data)
