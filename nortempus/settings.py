@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-ofob981urh4vfx__(@v7dm#d5t8+!8i=ge*tq!+ue5wf#nk**j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -40,10 +40,13 @@ INSTALLED_APPS = [
     "users",
     "category",
     "services",
+    "chat",
+    "chatmess",
     "userservice",
     "rest_framework",  # Add this line
     "rest_framework.authtoken",  # Add this line
-    'drf_yasg',
+    "drf_yasg",
+    "corsheaders",
 ]
 
 REST_FRAMEWORK = {
@@ -54,7 +57,12 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = "users.CustomUser"
 
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"]
+
+
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

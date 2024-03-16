@@ -6,4 +6,5 @@ urlpatterns = [
     re_path("register", views.register),
     re_path("login", views.login),
     re_path("profile", views.profile),
+    path("user/<int:user_id>/", views.get_user),
 ]

@@ -51,9 +51,15 @@ def register(request):
 
 
 @api_view(["POST"])
-@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def profile(request):
     services = Service.objects.filter(receiver=request.user)
     serializer = ServiceSerializer(services, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+def get_user(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    serializer = CustomUserSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)

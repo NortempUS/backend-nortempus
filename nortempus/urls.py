@@ -49,4 +49,6 @@ urlpatterns = [
     path('docs/', schema_view, name='schema-swagger-ui'),    path("", include("users.urls")),
     path("", include("users.urls")),
     path("", include("services.urls")),
+    path("", include("chat.urls")),
+    path("", include("chatmess.urls")),
 ]

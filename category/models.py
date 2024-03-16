@@ -1,5 +1,6 @@
 from django.db import models
 
+from services.models import Service
 from users.models import CustomUser
 
 # Create your models here.
@@ -13,7 +14,7 @@ class Category(models.Model):
         ("otros", "Otros"),
     ]
     category_type = models.TextField(choices=CATEGORY_CHOICES)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, null=True)
 
     def str(self):
         return self.category_type + " - " + self.user.username
