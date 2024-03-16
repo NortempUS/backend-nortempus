@@ -19,9 +19,9 @@ class Service(models.Model):
     description = models.TextField()
     date = models.DateField()
     status = models.BooleanField()
-    valoration = models.IntegerField(
+    rating = models.IntegerField(
         null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
 
-    def str(self):
+    def __str__ (self):
         return self.username

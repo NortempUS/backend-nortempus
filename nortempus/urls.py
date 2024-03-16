@@ -17,9 +17,36 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework import permissions
+from rest_framework.permissions import AllowAny
+from rest_framework.schemas.coreapi import AutoSchema
+from rest_framework.schemas import get_schema_view
+
+class CustomAutoSchema(AutoSchema):
+    def get_links(self, path, method, base_url):
+        links = super().get_links(path, method, base_url)
+        if method.lower() == 'get':
+            links.append({
+                'name': 'create',
+                'method': 'POST',
+                'url': base_url + path,
+                'description': 'Create a new service',
+            })
+        return links
+
+schema_view = get_schema_view(
+    version='1.0.0',
+    public=True,
+    permission_classes=(AllowAny,),
+    patterns=[
+        path('admin/', admin.site.urls),
+        path('api/', include('nortempus.urls')),
+    ],
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('docs/', schema_view, name='schema-swagger-ui'),    path("", include("users.urls")),
     path("", include("users.urls")),
     path("", include("services.urls")),
 ]

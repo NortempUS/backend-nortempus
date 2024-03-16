@@ -14,5 +14,5 @@ class ServiceSerializer(serializers.ModelSerializer):
             "description",
             "date",
             "status",
-            "valoration",
+            "rating",
         ]

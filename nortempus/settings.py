@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "userservice",
     "rest_framework",  # Add this line
     "rest_framework.authtoken",  # Add this line
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {

@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField()),
                 ('date', models.DateField()),
                 ('status', models.BooleanField()),
-                ('valoration', models.IntegerField(blank=True, null=True, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(5)])),
+                ('rating', models.IntegerField(blank=True, null=True, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(5)])),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='category.category')),
             ],
         ),

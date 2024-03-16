@@ -17,3 +17,15 @@ def list_services(request):
     serializer = ServiceSerializer(services, many=True)
 
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_service(request):
+    serializer = ServiceSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        successfullstatus = status.HTTP_201_CREATED
+        return Response(serializer.data, successfullstatus)
+    else:
+        badstatus = status.HTTP_400_BAD_REQUEST
+        return Response(serializer.errors, badstatus)
